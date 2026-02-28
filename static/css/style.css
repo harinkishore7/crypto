@@ -1,0 +1,253 @@
+/* static/css/style.css */
+
+:root {
+  /* Colors & Gradients */
+  --bg-gradient: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+  --sidebar-bg: #f5f5f7;        
+  --glass-bg: rgba(255, 255, 255, 0.45);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --glass-blur: blur(25px);
+  
+  /* Text & Accents */
+  --text-main: #1d1d1f;      
+  --text-grey: #86868b;
+  --accent-color: #0071e3;      /* Apple Blue */
+  --error-red: #ff3b30;
+  
+  /* Shadows */
+  --mac-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+}
+
+* { 
+  box-sizing: border-box; 
+  -webkit-font-smoothing: antialiased; 
+  margin: 0; 
+  padding: 0;
+}
+
+body { 
+  display: flex; 
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+  background: var(--bg-gradient); 
+  height: 100vh; 
+  overflow: hidden; 
+  color: var(--text-main);
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+  width: 280px;
+  background: var(--sidebar-bg);
+  border-right: 1px solid #d2d2d7;
+  padding: 40px 20px;
+  height: 100vh;
+  flex-shrink: 0;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 1.3rem;
+  font-weight: 900;
+  margin-bottom: 35px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-main);
+}
+
+.main-nav { list-style: none; }
+
+.nav-folder {
+  padding: 12px 0;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text-main);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.nav-label {
+  margin-top: 25px;
+  margin-bottom: 10px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--text-grey);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding-left: 10px;
+}
+
+.sub-nav {
+  list-style: none;
+  padding-left: 10px;
+  margin-bottom: 15px;
+}
+
+.sub-nav a {
+  display: block;
+  padding: 8px 15px;
+  text-decoration: none;
+  color: #434345;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.sub-nav a:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.active-sub {
+  color: var(--accent-color) !important;
+  background: rgba(0, 113, 227, 0.08) !important;
+}
+
+/* --- MAIN CONTENT --- */
+.content { 
+  flex-grow: 1; 
+  padding: 3rem; 
+  overflow-y: auto; 
+  height: 100vh; 
+}
+
+header h1 { 
+  font-size: 2.6rem; 
+  font-weight: 800; 
+  margin-bottom: 1.5rem; 
+  letter-spacing: -1.2px; 
+}
+
+/* --- FORMS & INPUTS --- */
+form { 
+  background: var(--glass-bg); 
+  padding: 2.5rem; 
+  border-radius: 25px; 
+  border: 1px solid var(--glass-border); 
+  box-shadow: var(--mac-shadow); 
+  margin-bottom: 2rem; 
+  backdrop-filter: var(--glass-blur);
+}
+
+label { 
+  display: block; 
+  margin: 1.2rem 0 0.5rem; 
+  font-weight: 600; 
+  font-size: 0.85rem; 
+}
+
+input, textarea, select { 
+  width: 100%; 
+  padding: 1rem; 
+  border-radius: 14px; 
+  border: 1px solid rgba(0,0,0,0.1); 
+  background: rgba(255,255,255,0.6); 
+  font-family: inherit; 
+  font-size: 1rem; 
+  outline: none;
+  transition: 0.2s;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent-color);
+  background: white;
+}
+
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2386868b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.1em;
+}
+
+button[type="submit"] { 
+  width: 100%; 
+  background: var(--accent-color); 
+  color: white; 
+  border: none; 
+  padding: 1.1rem; 
+  border-radius: 14px; 
+  font-weight: 700; 
+  cursor: pointer; 
+  margin-top: 2rem; 
+  transition: 0.3s; 
+  font-size: 1rem;
+}
+
+button[type="submit"]:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+/* --- OUTPUT & TRACES (REFINED) --- */
+.output-box { 
+  background: rgba(255,255,255,0.85); 
+  padding: 1.8rem; 
+  border-radius: 20px; 
+  margin-top: 1rem; 
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.04); 
+  font-family: "SF Mono", "Menlo", monospace; 
+  line-height: 1.5;
+  overflow-x: auto;
+}
+
+/* TRACE LOG - Removed Green, Added Glass GUI Style */
+.trace-log {
+  background: rgba(255, 255, 255, 0.7) !important;
+  color: var(--text-main) !important;
+  font-family: "SF Mono", "Menlo", "Monaco", monospace !important;
+  font-size: 0.9rem !important;
+  white-space: pre !important; 
+  padding: 30px !important;
+  border-radius: 25px !important;
+  box-shadow: var(--mac-shadow);
+  line-height: 1.5 !important;
+  margin-top: 2rem;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+}
+
+.badge {
+  display: inline-block;
+  padding: 5px 14px;
+  background: var(--accent-color);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+/* --- DASHBOARD / SPLIT VIEW --- */
+.split-container { display: flex; gap: 20px; height: 82vh; margin-top: 10px; }
+
+.split-column {
+  flex: 1; display: flex; flex-direction: column;
+  background: var(--glass-bg); border-radius: 25px;
+  border: 1px solid var(--glass-border); overflow: hidden; box-shadow: var(--mac-shadow);
+}
+
+.column-label {
+  padding: 14px; text-align: center; background: rgba(255, 255, 255, 0.2);
+  font-weight: 800; border-bottom: 1px solid var(--glass-border);
+  font-size: 1rem;
+}
+
+.split-frame { width: 100%; height: 100%; border: none; }
+
+/* --- IFRAME CLEANUP --- */
+body.iframe-mode { background: transparent !important; }
+body.iframe-mode .sidebar, body.iframe-mode header { display: none !important; }
+body.iframe-mode .content { padding: 10px !important; height: auto; }
+body.iframe-mode form { 
+  box-shadow: none; 
+  width: 100%; 
+  border: 1px solid rgba(0,0,0,0.05);
+  margin-bottom: 0.5rem;
+  padding: 1.5rem;
+}

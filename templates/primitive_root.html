@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+  <form method="POST">
+    <label>Modulus (n):</label>
+    <input name="modulus" type="number" min="2" required value="{{ request.form.get('modulus', '') }}" placeholder="e.g. 17">
+    <button type="submit">Compute</button>
+  </form>
+
+  {% if result %}
+    <div class="output-box">
+      <strong>Roots Exist:</strong> {{ result.exists }}<br>
+      {% if result.phi %}<strong>Totient φ(n):</strong> {{ result.phi }}{% endif %}<br>
+      <strong>Found Roots:</strong> [ {{ result.roots|join(', ') }} ]
+    </div>
+
+    {% if result.steps %}
+      <h3>Step-by-Step Calculation:</h3>
+      <div class="output-box" style="font-size: 0.85rem; line-height: 1.6;">
+        {% for step in result.steps %}
+          {{ step }}<br>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endif %}
+  <div class="error-message">{{ error if error }}</div>
+</section>
+{% endblock %}

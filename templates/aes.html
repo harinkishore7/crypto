@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<header>
+    <div class="badge">Symmetric Encryption</div>
+    <h1>AES-128 Algorithm Tracer</h1>
+</header>
+
+<form method="POST">
+    <label>Operation Mode</label>
+    <select name="operation">
+        <option value="ENCRYPT" {% if request.form.get('operation') == 'ENCRYPT' %}selected{% endif %}>Encrypt (Text to Hex)</option>
+        <option value="DECRYPT" {% if request.form.get('operation') == 'DECRYPT' %}selected{% endif %}>Decrypt (Hex to Text)</option>
+    </select>
+
+    <label>Block Chaining</label>
+    <select name="mode">
+        <option value="ECB" {% if request.form.get('mode') == 'ECB' %}selected{% endif %}>ECB (Electronic Codebook)</option>
+        <option value="CBC" {% if request.form.get('mode') == 'CBC' %}selected{% endif %}>CBC (Cipher Block Chaining)</option>
+    </select>
+
+    <label>Input (Plaintext or Hex Ciphertext)</label>
+    <textarea name="text" required>{{ request.form.get('text', '') }}</textarea>
+
+    <label>Key (32 Hex Characters)</label>
+    <input type="text" name="key" value="{{ request.form.get('key', '') }}" placeholder="000102030405060708090a0b0c0d0e0f" required>
+
+    <button type="submit">Execute AES Algorithm</button>
+</form>
+
+{% if error %}<div class="error-message">Error: {{ error }}</div>{% endif %}
+
+{% if result %}
+    <div class="trace-container">
+        <div class="trace-title">Final Result</div>
+        <div class="output-box" style="color: var(--accent-color); font-weight: 800; word-break: break-all;">
+            {{ result.ciphertext }}
+        </div>
+
+        <div class="trace-title" style="margin-top: 2rem;">Round-by-Round Analysis</div>
+        <div class="output-box trace-log">{% for step in result.steps %}{{ step }}
+{% endfor %}</div>
+    </div>
+{% endif %}
+{% endblock %}

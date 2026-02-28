@@ -1,0 +1,106 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title if title else "Crypto Lab" }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="{% if request.path != '/' and request.path != '/ex1' and request.path != '/ex2' %}iframe-mode{% endif %}">
+
+<aside class="sidebar">
+  <div class="logo">CRYPTO LAB</div>
+  <nav>
+    <ul class="main-nav">
+      <!-- EXERCISE 1 SECTION -->
+      <li class="nav-folder">
+        <span onclick="showView('dashboard')">📁 Ex1 – Classical</span>
+      </li>
+      <ul class="sub-nav">
+        <li><a href="#" onclick="showView('shift')">Shift Cipher</a></li>
+        <li><a href="#" onclick="showView('playfair')">Playfair Cipher</a></li>
+        <li><a href="#" onclick="showView('hill')">Hill Cipher</a></li>
+      </ul>
+
+      <!-- HILL MATH TOOLS -->
+      <li class="nav-label">HILL MATH TOOLS</li>
+      <ul class="sub-nav">
+        <li><a href="#" onclick="showView('hill-inv')">Matrix Inverse</a></li>
+        <li><a href="#" onclick="showView('hill-det')">Determinant</a></li>
+        <li><a href="#" onclick="showView('hill-gcd')">Mod Inverse (GCD)</a></li>
+        <li><a href="#" onclick="showView('hill-cofactor')">Cofactor Matrix</a></li>
+        <li><a href="#" onclick="showView('hill-transpose')">Transpose</a></li>
+      </ul>
+
+      <!-- NUMBER THEORY -->
+      <li class="nav-label">NUMBER THEORY</li>
+      <ul class="sub-nav">
+        <li><a href="#" onclick="showView('numtheory')">Primitive Roots</a></li>
+      </ul>
+
+      <!-- EXERCISE 2 SECTION -->
+      <li class="nav-folder" style="margin-top: 20px;">
+        <span onclick="showView('dashboard')">📁 Ex2 – Symmetric</span>
+      </li>
+      <ul class="sub-nav">
+        <li><a href="#" onclick="showView('aes')">AES-128 Tracer</a></li>
+        <li><a href="#" onclick="showView('des')">DES Tracer</a></li>
+      </ul>
+    </ul>
+  </nav>
+</aside>
+
+<main class="content">
+  {% block content %}{% endblock %}
+</main>
+
+<script>
+  /**
+   * showView
+   * Toggles the display of sections inside index.html based on sidebar clicks.
+   */
+  function showView(viewId) {
+    // 1. Hide all sections with the class 'view-section'
+    const sections = document.querySelectorAll('.view-section');
+    sections.forEach(s => {
+      s.style.display = 'none';
+    });
+    
+    // 2. Show the specific target section
+    const target = document.getElementById('view-' + viewId);
+    if (target) {
+      target.style.display = 'block';
+    } else {
+      // Fallback to dashboard if ID is missing
+      const dash = document.getElementById('view-dashboard');
+      if (dash) dash.style.display = 'block';
+    }
+    
+    // 3. Update active visual state in sidebar
+    document.querySelectorAll('.sidebar a').forEach(link => {
+      link.classList.remove('active-sub');
+    });
+    
+    // If the click came from an anchor link, highlight it
+    if (event && event.target.tagName === 'A') {
+      event.target.classList.add('active-sub');
+    }
+  }
+
+  /**
+   * Iframe Detection
+   * If this page is being loaded inside an iframe (the split-view),
+   * apply 'iframe-mode' to hide the sidebar and header.
+   */
+  function checkIframe() {
+    if (window.self !== window.top) {
+      document.body.classList.add('iframe-mode');
+    }
+  }
+
+  // Run on load
+  window.onload = checkIframe;
+</script>
+</body>
+</html>

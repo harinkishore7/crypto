@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="iframe-mode">
+  <main class="content">
+    <section>
+      <form method="POST">
+        <label>Matrix Dimension (n):</label>
+        <input type="number" name="size" value="{{ request.form.get('size', '2') }}" required>
+        <label>Key / Matrix:</label>
+        <textarea name="key" required>{{ request.form.get('key', '') }}</textarea>
+        <label>Plaintext:</label>
+        <textarea name="plaintext" required>{{ request.form.get('plaintext', '') }}</textarea>
+        <button type="submit">Encrypt</button>
+      </form>
+
+      <div class="error-message">{{ error if error }}</div>
+
+      {% if data %}
+        <h3 style="color: var(--accent-color);">Final Ciphertext:</h3>
+        <pre class="output-box" style="font-size: 1.5rem; color: var(--accent-color); font-weight: bold; border: 2px solid var(--accent-color);">{{ data.text }}</pre>
+
+        <hr style="margin: 2rem 0; opacity: 0.2;">
+
+        <h3>1. Encryption Matrix:</h3>
+        <pre class="output-box">{% for row in data.matrix %}{{ row }}
+{% endfor %}</pre>
+
+        <h3>2. Mathematical Trace (Vector × Matrix):</h3>
+        {% for b in data.blocks %}
+          <div class="output-box" style="margin-bottom: 10px; font-size: 0.85rem;">
+            <strong>Block Input:</strong> {{ b.vec }}<br>
+            {% for j in range(b.products|length) %}
+                Pos {{ j }}: Sum({{ b.products[j]|join(' + ') }}) = {{ b.sums[j] }} → mod 26 = <b>{{ b.sums_mod[j] }}</b> ({{ b.letters[j] }})<br>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </section>
+  </main>
+</body>
+</html>
+<script>
+  if (window.self !== window.top) {
+    document.body.classList.add('iframe-mode');
+  }
+</script>

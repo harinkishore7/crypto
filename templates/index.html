@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  .view-section { display: none; height: 100%; animation: fadeIn 0.4s ease; }
+  #view-dashboard { display: block; }
+
+  /* Side-by-Side Split View */
+  .split-container { display: flex; gap: 20px; height: 82vh; margin-top: 10px; }
+  .split-column {
+    flex: 1; display: flex; flex-direction: column;
+    background: var(--glass-bg); border-radius: 25px;
+    border: 1px solid var(--glass-border); overflow: hidden; box-shadow: var(--mac-shadow);
+  }
+  .column-label {
+    padding: 12px; text-align: center; background: rgba(255, 255, 255, 0.2);
+    font-weight: 800; border-bottom: 1px solid var(--glass-border);
+  }
+  .split-frame { width: 100%; height: 100%; border: none; }
+  
+  /* Full screen frame for sidebar math tools */
+  .tool-container { 
+    width: 100%; 
+    height: 85vh; 
+    border-radius: 25px; 
+    overflow: hidden; 
+    border: 1px solid var(--glass-border); 
+    box-shadow: var(--mac-shadow); 
+    background: var(--glass-bg); 
+  }
+</style>
+
+<!-- DASHBOARD (Dynamic based on Exercise Folder) -->
+<div id="view-dashboard" class="view-section">
+  <header>
+    {% if active_ex == 'ex1' %}
+      <h1>Ex1: Classical Cryptography</h1>
+      <p>Select a classical cipher or number theory tool from the sidebar.</p>
+    {% else %}
+      <h1>Ex2: Symmetric Block Ciphers</h1>
+      <p>Analyze modern cryptographic standards like AES and DES.</p>
+    {% endif %}
+  </header>
+  
+  <div class="output-box">
+   
+  </div>
+</div>
+
+<!-- ========================== EXERCISE 1 VIEWS ========================== -->
+
+<!-- SHIFT VIEW -->
+<div id="view-shift" class="view-section">
+  <header><h1>Shift Cipher</h1></header>
+  <div class="split-container">
+    <div class="split-column"><div class="column-label">Encrypt</div><iframe src="{{ url_for('shift_encrypt_route') }}" class="split-frame"></iframe></div>
+    <div class="split-column"><div class="column-label">Decrypt</div><iframe src="{{ url_for('shift_decrypt_route') }}" class="split-frame"></iframe></div>
+  </div>
+</div>
+
+<!-- PLAYFAIR VIEW -->
+<div id="view-playfair" class="view-section">
+  <header><h1>Playfair Cipher</h1></header>
+  <div class="split-container">
+    <div class="split-column"><div class="column-label">Encrypt</div><iframe src="{{ url_for('playfair_encrypt_route') }}" class="split-frame"></iframe></div>
+    <div class="split-column"><div class="column-label">Decrypt</div><iframe src="{{ url_for('playfair_decrypt_route') }}" class="split-frame"></iframe></div>
+  </div>
+</div>
+
+<!-- HILL CIPHER MAIN PAGE -->
+<div id="view-hill" class="view-section">
+  <header><h1>Hill Cipher Operations</h1></header>
+  <div class="split-container">
+    <div class="split-column">
+        <div class="column-label">Hill Encryption</div>
+        <iframe src="{{ url_for('hill_encrypt_route') }}" class="split-frame"></iframe>
+    </div>
+    <div class="split-column">
+        <div class="column-label">Hill Decryption</div>
+        <iframe src="{{ url_for('hill_decrypt_route') }}" class="split-frame"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- HILL MATH TOOL VIEWS -->
+<div id="view-hill-inv" class="view-section">
+  <header><h1>Matrix Inverse</h1></header>
+  <div class="tool-container"><iframe src="{{ url_for('hill_matrix_inverse_route') }}" class="split-frame"></iframe></div>
+</div>
+
+<div id="view-hill-det" class="view-section">
+  <header><h1>Matrix Determinant</h1></header>
+  <div class="tool-container"><iframe src="{{ url_for('hill_determinant_route') }}" class="split-frame"></iframe></div>
+</div>
+
+<div id="view-hill-gcd" class="view-section">
+  <header><h1>Multiplicative Inverse (GCD)</h1></header>
+  <div class="tool-container"><iframe src="{{ url_for('hill_multiplicative_inverse_route') }}" class="split-frame"></iframe></div>
+</div>
+
+<div id="view-hill-cofactor" class="view-section">
+  <header><h1>Cofactor Matrix</h1></header>
+  <div class="tool-container"><iframe src="{{ url_for('hill_cofactor_route') }}" class="split-frame"></iframe></div>
+</div>
+
+<div id="view-hill-transpose" class="view-section">
+  <header><h1>Transpose Matrix</h1></header>
+  <div class="tool-container"><iframe src="{{ url_for('hill_transpose_route') }}" class="split-frame"></iframe></div>
+</div>
+
+<!-- NUMBER THEORY -->
+<div id="view-numtheory" class="view-section">
+  <header><h1>Number Theory</h1></header>
+  <div class="tool-container">
+      <iframe src="{{ url_for('primitive_root_route') }}" class="split-frame"></iframe>
+  </div>
+</div>
+
+<!-- ========================== EXERCISE 2 VIEWS ========================== -->
+
+<!-- AES-128 VIEW -->
+<div id="view-aes" class="view-section">
+  <header><h1>AES-128 Tracer</h1></header>
+  <div class="tool-container">
+    <iframe src="{{ url_for('aes_route') }}" class="split-frame"></iframe>
+  </div>
+</div>
+
+<!-- DES VIEW -->
+<div id="view-des" class="view-section">
+  <header><h1>DES Tracer</h1></header>
+  <div class="tool-container">
+    <iframe src="{{ url_for('des_route') }}" class="split-frame"></iframe>
+  </div>
+</div>
+
+{% endblock %}

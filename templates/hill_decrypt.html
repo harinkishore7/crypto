@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="iframe-mode">
+  <main class="content">
+    <section>
+      <form method="POST">
+        <label>Matrix Dimension (n):</label>
+        <input type="number" name="size" value="{{ request.form.get('size', '2') }}" required>
+        <label>Key / Matrix:</label>
+        <textarea name="key" required>{{ request.form.get('key', '') }}</textarea>
+        <label>Ciphertext:</label>
+        <textarea name="ciphertext" required>{{ request.form.get('ciphertext', '') }}</textarea> 
+        <button type="submit">Decrypt</button>
+      </form>
+
+      <div class="error-message">{{ error if error }}</div>
+
+      {% if data %}
+        <h3 style="color: var(--accent-color);">Final Plaintext:</h3>
+        <pre class="output-box" style="font-size: 1.5rem; color: var(--accent-color); font-weight: bold; border: 2px solid var(--accent-color);">{{ data.text }}</pre>
+
+        <hr style="margin: 2rem 0; opacity: 0.2;">
+
+        <h3>1. Inverse Matrix Properties:</h3>
+        <div class="output-box">
+            Det: {{ data.det }} (mod 26: {{ data.det_mod }})<br>
+            Det Inverse (mod 26): {{ data.det_inv }}
+        </div>
+
+        <h3>2. Cofactor Matrix:</h3>
+        <pre class="output-box">{% for row in data.cofactor_matrix %}{{ row }}
+{% endfor %}</pre>
+
+        <h3>3. Transpose Matrix (Transpose of Cofactor):</h3>
+        <pre class="output-box">{% for row in data.adjugate_matrix %}{{ row }}
+{% endfor %}</pre>
+
+        <h3>4. Final Inverse Matrix (K⁻¹ mod 26):</h3>
+        <div class="output-box">
+            <div style="text-align: center; color: var(--text-grey); font-size: 0.9rem; margin-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 10px;">
+                Calculation: (Transpose * Det Inverse) mod 26
+            </div>
+            <div style="font-family: 'SF Mono', 'Menlo', 'Monaco', monospace; white-space: pre;">{% for row in data.inv_matrix %}{{ row }}
+{% endfor %}</div>
+        </div>
+
+        <h3>5. Decryption Trace (Vector × K⁻¹):</h3>
+        {% for b in data.blocks %}
+          <div class="output-box" style="font-size: 0.85rem;">
+            <strong>Cipher Vector:</strong> {{ b.vec }}<br>
+            {% for j in range(b.sums|length) %}
+                Sum → mod 26 = <b>{{ b.sums_mod[j] }}</b> ({{ b.letters[j] }})<br>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </section>
+  </main>
+</body>
+</html>
+<script>
+  if (window.self !== window.top) {
+    document.body.classList.add('iframe-mode');
+  }
+</script>

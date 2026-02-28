@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+  <form method="POST">
+    <label>Plaintext:</label>
+    <textarea name="plaintext" required>{{ request.form.get('plaintext', '') }}</textarea>
+    <label>Key (integer):</label>
+    <input type="number" name="key" value="{{ request.form.get('key', '') }}" required>
+    <button type="submit">Encrypt</button>
+  </form>
+
+  {% if result %}
+    <h3>Resulting Ciphertext:</h3>
+    <pre class="output-box">{{ result.text }}</pre>
+
+    <h3>Detailed Mathematical Trace:</h3>
+    <div class="output-box" style="font-size: 0.85rem; line-height: 1.6;">
+        {% for step in result.steps %}
+            {{ step }}<br>
+        {% endfor %}
+    </div>
+  {% endif %}
+  <div class="error-message">{{ error if error }}</div>
+</section>
+{% endblock %}
