@@ -205,5 +205,8 @@ def des_route():
         except Exception as e: error = str(e)
     return render_template('des.html', result=result, error=error)
 
-if __name__ == '__main__':
-    app.run(debug=True, port=3000)
+if __name__ == "__main__":
+    # Render provides a PORT environment variable. We must use it.
+    port = int(os.environ.get("PORT", 10000))
+    # '0.0.0.0' is required to make the server reachable externally
+    app.run(host="0.0.0.0", port=port)
